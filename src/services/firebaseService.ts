@@ -8,6 +8,7 @@ import {
   query, 
   orderBy,
   where,
+  getDoc,
   Timestamp 
 } from 'firebase/firestore';
 import { db } from '../config/firebase';
@@ -130,9 +131,18 @@ export const updateProgramInFirestore = async (id: string, updates: Partial<Dail
 
 export const deleteProgramFromFirestore = async (id: string) => {
   try {
-    console.log('Tentando deletar programação com ID:', id);
-    await deleteDoc(doc(db, 'programs', id));
-    console.log('Programação deletada com sucesso do Firebase');
+    const docRef = doc(db, 'programs', id);
+    
+    // Verificar se o documento existe antes de tentar deletar
+    const docSnap = await getDoc(docRef);
+    
+    if (!docSnap.exists()) {
+      console.warn('Documento não encontrado para exclusão:', id);
+      return; // Não é erro se já foi deletado
+    }
+    
+    await deleteDoc(docRef);
+    
   } catch (error) {
     console.error('Erro ao deletar programação:', error);
     throw error;
