@@ -45,6 +45,7 @@ export const getDriversFromFirestore = async (): Promise<Driver[]> => {
 export const deleteDriverFromFirestore = async (id: string) => {
   try {
     await deleteDoc(doc(db, 'drivers', id));
+    console.log('Motorista deletado com sucesso do Firebase');
   } catch (error) {
     console.error('Erro ao deletar motorista:', error);
     throw error;
@@ -129,9 +130,11 @@ export const updateProgramInFirestore = async (id: string, updates: Partial<Dail
 
 export const deleteProgramFromFirestore = async (id: string) => {
   try {
+    console.log('Tentando deletar programação com ID:', id);
     await deleteDoc(doc(db, 'programs', id));
+    console.log('Programação deletada com sucesso do Firebase');
   } catch (error) {
     console.error('Erro ao deletar programação:', error);
     throw error;
   }
-};
+}
