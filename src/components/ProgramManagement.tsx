@@ -119,14 +119,18 @@ export const ProgramManagement: React.FC = () => {
   };
 
   const handleDeleteProgram = async (id: string) => {
-    if (confirm('Tem certeza que deseja excluir esta programação?')) {
+    if (window.confirm('Tem certeza que deseja excluir esta programação?')) {
       try {
+        setLoading(true);
         await deleteProgram(id);
         if (activeProgram?.id === id) {
           setActiveProgram(null);
         }
       } catch (error) {
+        console.error('Erro ao excluir programação:', error);
         alert('Erro ao excluir programação. Tente novamente.');
+      } finally {
+        setLoading(false);
       }
     }
   };
