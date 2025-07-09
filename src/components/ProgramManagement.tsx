@@ -119,19 +119,29 @@ export const ProgramManagement: React.FC = () => {
   };
 
   const handleDeleteProgram = async (id: string) => {
-    if (window.confirm('Tem certeza que deseja excluir esta programação?')) {
-      try {
-        setLoading(true);
-        await deleteProgram(id);
-        if (activeProgram?.id === id) {
-          setActiveProgram(null);
-        }
-      } catch (error) {
-        console.error('Erro ao excluir programação:', error);
-        alert('Erro ao excluir programação. Tente novamente.');
-      } finally {
-        setLoading(false);
+    if (!window.confirm('Tem certeza que deseja excluir esta programação?')) {
+      return;
+    }
+
+    try {
+      setLoading(true);
+      
+      // Atualizar UI imediatamente para melhor UX
+      if (activeProgram?.id === id) {
+        setActiveProgram(null);
       }
+      
+      // Executar exclusão no Firebase
+      await deleteProgram(id);
+      
+    } catch (error) {
+      console.error('Erro ao excluir programação:', error);
+      alert('Erro ao excluir programação. Tente novamente.');
+      
+      // Recarregar dados em caso de erro para sincronizar
+      window.location.reload();
+    } finally {
+      setLoading(false);
     }
   };
 
