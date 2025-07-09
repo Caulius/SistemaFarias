@@ -170,8 +170,11 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   const deleteProgram = async (id: string) => {
     try {
+      console.log('Iniciando exclusão da programação:', id);
       await deleteProgramFromFirestore(id);
+      console.log('Programação excluída do Firebase, atualizando estado local');
       setPrograms(prev => prev.filter(program => program.id !== id));
+      console.log('Estado local atualizado com sucesso');
     } catch (error) {
       console.error('Erro ao deletar programação:', error);
       throw error;
