@@ -34,6 +34,11 @@ export const DriverManagement: React.FC = () => {
     }
   };
 
+  // Ordenar motoristas alfabeticamente por nome
+  const sortedDrivers = [...drivers].sort((a, b) => 
+    a.name.localeCompare(b.name, 'pt-BR', { sensitivity: 'base' })
+  );
+
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
@@ -95,7 +100,7 @@ export const DriverManagement: React.FC = () => {
       )}
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-        {drivers.map((driver) => (
+        {sortedDrivers.map((driver) => (
           <div key={driver.id} className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-4">
             <div className="flex items-center justify-between mb-3">
               <div className="flex items-center space-x-2">
@@ -116,7 +121,7 @@ export const DriverManagement: React.FC = () => {
         ))}
       </div>
 
-      {drivers.length === 0 && (
+      {sortedDrivers.length === 0 && (
         <div className="text-center py-12">
           <User className="h-16 w-16 text-gray-400 mx-auto mb-4" />
           <p className="text-gray-500 dark:text-gray-400">Nenhum motorista cadastrado</p>
