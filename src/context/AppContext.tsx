@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Plus, Edit, Trash2, Calendar, Clock, Truck } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { RouteForm } from './RouteForm';
-import { MessagePreview } from './MessagePreview';
+import { MessagePreview } from './components/MessagePreview';
 import { DailyProgram, Route } from '../types';
 import { format, parseISO } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
