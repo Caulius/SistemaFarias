@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Download, FileText, Calendar } from 'lucide-react';
 import { useApp } from '../context/AppContext';
-import { format, startOfMonth, endOfMonth, eachDayOfInterval, isWithinInterval } from 'date-fns';
+import { format, startOfMonth, endOfMonth, eachDayOfInterval, isWithinInterval, parseISO } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import * as XLSX from 'xlsx';
 
@@ -24,7 +24,7 @@ export const Reports: React.FC = () => {
       program.routes.forEach((route, routeIndex) => {
         route.destinations.forEach((destination, destIndex) => {
           data.push({
-            'Data': format(new Date(program.date), 'dd/MM/yyyy'),
+            'Data': format(parseISO(program.date), 'dd/MM/yyyy'),
             'Programação': program.sequence,
             'Veículo': route.vehiclePlate,
             'Motorista': route.driverName,
@@ -44,7 +44,7 @@ export const Reports: React.FC = () => {
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, 'Programações Diárias');
     
-    const fileName = `programacoes_${format(new Date(selectedDate), 'dd-MM-yyyy')}.xlsx`;
+    const fileName = `programacoes_${format(parseISO(selectedDate), 'dd-MM-yyyy')}.xlsx`;
     XLSX.writeFile(workbook, fileName);
   };
 
@@ -53,7 +53,7 @@ export const Reports: React.FC = () => {
     const monthEnd = endOfMonth(monthStart);
     
     const monthlyPrograms = programs.filter(p => {
-      const programDate = new Date(p.date);
+      const programDate = parseISO(p.date);
       return isWithinInterval(programDate, { start: monthStart, end: monthEnd });
     });
 
@@ -68,7 +68,7 @@ export const Reports: React.FC = () => {
       program.routes.forEach((route, routeIndex) => {
         route.destinations.forEach((destination, destIndex) => {
           data.push({
-            'Data': format(new Date(program.date), 'dd/MM/yyyy'),
+            'Data': format(parseISO(program.date), 'dd/MM/yyyy'),
             'Programação': program.sequence,
             'Veículo': route.vehiclePlate,
             'Motorista': route.driverName,
@@ -108,7 +108,7 @@ export const Reports: React.FC = () => {
     const monthEnd = endOfMonth(monthStart);
     
     const monthlyPrograms = programs.filter(p => {
-      const programDate = new Date(p.date);
+      const programDate = parseISO(p.date);
       return isWithinInterval(programDate, { start: monthStart, end: monthEnd });
     });
 
