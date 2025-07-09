@@ -25,11 +25,15 @@ export const VehicleManagement: React.FC = () => {
   };
 
   const handleDelete = async (id: string) => {
-    if (confirm('Tem certeza que deseja excluir este veículo?')) {
+    if (window.confirm('Tem certeza que deseja excluir este veículo?')) {
       try {
+        setLoading(true);
         await deleteVehicle(id);
       } catch (error) {
+        console.error('Erro ao excluir veículo:', error);
         alert('Erro ao excluir veículo. Tente novamente.');
+      } finally {
+        setLoading(false);
       }
     }
   };
