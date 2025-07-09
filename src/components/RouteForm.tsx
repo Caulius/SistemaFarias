@@ -21,6 +21,15 @@ export const RouteForm: React.FC<RouteFormProps> = ({ onSave, onCancel, editingR
     destinations: editingRoute?.destinations || [{ id: '1', city: '', time: '', observation: '' }]
   });
 
+  // Ordenar motoristas e veículos alfabeticamente para os selects
+  const sortedDrivers = [...drivers].sort((a, b) => 
+    a.name.localeCompare(b.name, 'pt-BR', { sensitivity: 'base' })
+  );
+
+  const sortedVehicles = [...vehicles].sort((a, b) => 
+    a.plate.localeCompare(b.plate, 'pt-BR', { sensitivity: 'base' })
+  );
+
   const handleDriverChange = (driverId: string) => {
     const driver = drivers.find(d => d.id === driverId);
     setFormData({
@@ -107,7 +116,7 @@ export const RouteForm: React.FC<RouteFormProps> = ({ onSave, onCancel, editingR
               required
             >
               <option value="">Selecione o motorista</option>
-              {drivers.map(driver => (
+              {sortedDrivers.map(driver => (
                 <option key={driver.id} value={driver.id}>{driver.name}</option>
               ))}
             </select>
@@ -124,7 +133,7 @@ export const RouteForm: React.FC<RouteFormProps> = ({ onSave, onCancel, editingR
               required
             >
               <option value="">Selecione o veículo</option>
-              {vehicles.map(vehicle => (
+              {sortedVehicles.map(vehicle => (
                 <option key={vehicle.id} value={vehicle.id}>{vehicle.plate}</option>
               ))}
             </select>
