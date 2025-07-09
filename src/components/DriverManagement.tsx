@@ -25,11 +25,15 @@ export const DriverManagement: React.FC = () => {
   };
 
   const handleDelete = async (id: string) => {
-    if (confirm('Tem certeza que deseja excluir este motorista?')) {
+    if (window.confirm('Tem certeza que deseja excluir este motorista?')) {
       try {
+        setLoading(true);
         await deleteDriver(id);
       } catch (error) {
+        console.error('Erro ao excluir motorista:', error);
         alert('Erro ao excluir motorista. Tente novamente.');
+      } finally {
+        setLoading(false);
       }
     }
   };
