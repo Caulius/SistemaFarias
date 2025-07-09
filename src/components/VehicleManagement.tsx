@@ -34,6 +34,11 @@ export const VehicleManagement: React.FC = () => {
     }
   };
 
+  // Ordenar veículos alfabeticamente por placa
+  const sortedVehicles = [...vehicles].sort((a, b) => 
+    a.plate.localeCompare(b.plate, 'pt-BR', { sensitivity: 'base' })
+  );
+
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
@@ -97,7 +102,7 @@ export const VehicleManagement: React.FC = () => {
       )}
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-        {vehicles.map((vehicle) => (
+        {sortedVehicles.map((vehicle) => (
           <div key={vehicle.id} className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-4">
             <div className="flex items-center justify-between mb-3">
               <div className="flex items-center space-x-2">
@@ -118,7 +123,7 @@ export const VehicleManagement: React.FC = () => {
         ))}
       </div>
 
-      {vehicles.length === 0 && (
+      {sortedVehicles.length === 0 && (
         <div className="text-center py-12">
           <Car className="h-16 w-16 text-gray-400 mx-auto mb-4" />
           <p className="text-gray-500 dark:text-gray-400">Nenhum veículo cadastrado</p>
